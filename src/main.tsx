@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { FrequensyTest } from "./components/FrequensyTest.tsx";
 import { MainContextProvider } from "./context/MainContext.tsx";
 import { SequenceTest } from "./components/SequenceTest.tsx";
+import { ExtraTest } from "./components/ExtraTest.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "sequence",
         element: <SequenceTest />,
+      },
+      {
+        path: "extra",
+        element: <ExtraTest />
       }
     ],
   },

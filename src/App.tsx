@@ -13,7 +13,7 @@ function App() {
 
   const { sequenceChange } = useContext(MainContextValues);
 
-  const items1 = ["frequensy", "sequence"].map((key) => ({
+  const items1 = ["frequensy", "sequence", "extra"].map((key) => ({
     key,
     label: `${key}`,
   }));
