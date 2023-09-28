@@ -2,7 +2,8 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { MainContextValues } from "../context/MainContext";
 
 export const ExtraTest = () => {
-  const [success, setSuccess] = useState<boolean>();
+  const [success, setSuccess] = useState<boolean>(false);
+  const [currentStatistic, setCurrentStatistic] = useState<number[]>([]);
   const { sequence } = useContext(MainContextValues);
 
   const j = useMemo(
@@ -52,12 +53,16 @@ export const ExtraTest = () => {
   }, [j, l, summOfStates]);
 
   const checkStatistics = useCallback(() => {
-    statistics().map((value) => {
+    let isCorrect = true;
+    let stat = statistics();
+    stat.map((value) => {
       if (value >= 1.82138636) {
-        setSuccess(false);
+        isCorrect = false;
         return;
       }
     });
+    setCurrentStatistic(stat);
+    setSuccess(isCorrect);
   }, [statistics]);
 
   useEffect(() => {
@@ -66,9 +71,13 @@ export const ExtraTest = () => {
 
   return (
     <>
-      <h1>Пиписька</h1>
-      <h3>{statistics()}</h3>
-      <h3>{success ? 'Все гудик' : 'Рофлим'}</h3>
+      <h1>Расширенный тест на произвольные отклонения</h1>
+      {currentStatistic.map((value, index) => (
+        <p key={index}>
+          <span style={{ fontWeight: "bold" }}>{value.toFixed(8)}</span> {"<="} 1.82138636
+        </p>
+      ))}
+      <h3>{success ? "Тест пройден успешно" : "Тест не пройден"}</h3>
     </>
   );
 };

@@ -2,16 +2,15 @@ import { useContext } from "react";
 import "antd/dist/reset.css";
 import Layout, { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { Input, Menu, Space, Typography } from "antd";
+import { Button, Input, Menu, Space, Typography } from "antd";
 import "./App.css";
 import { MainContextValues } from "./context/MainContext";
 import { Outlet, useNavigate } from "react-router-dom";
 
 function App() {
-
   const navigate = useNavigate();
 
-  const { sequenceChange } = useContext(MainContextValues);
+  const { sequenceChange, downloadSequenceFromFile } = useContext(MainContextValues);
 
   const items1 = ["frequensy", "sequence", "extra"].map((key) => ({
     key,
@@ -41,6 +40,9 @@ function App() {
               addonBefore={"Длина последовательности"}
               placeholder={"Введите длину"}
             />
+            <Button type="primary" onClick={downloadSequenceFromFile}>
+              Загрузить из файла
+            </Button>
             <Outlet />
           </Space>
         </Typography>

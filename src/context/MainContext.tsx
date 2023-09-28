@@ -1,11 +1,6 @@
-import {
-  ChangeEvent,
-  ReactNode,
-  createContext,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, ReactNode, createContext, useState } from "react";
 import { generateSequence } from "../generators/randomSequence";
+import { convertSequenceToArray } from "../generators/convertSequenceToArray";
 
 interface Props {
   children: ReactNode;
@@ -14,34 +9,33 @@ interface Props {
 interface Context {
   sequence: number[];
   sequenceChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  downloadSequenceFromFile: () => void;
 }
 
 export const MainContextValues = createContext<Context>({
   sequence: [],
   sequenceChange: () => {},
+  downloadSequenceFromFile: () => {},
 });
 
 export const MainContextProvider = (props: Props) => {
   const [writableSequence, setWritableSequence] = useState<number>();
-  const [fileData, setFileData] = useState<string>();
-
-  /** TODO: переделать на событие кнопки и в функцию. */
-  useEffect(() => {
-    fetch("input.txt")
-      .then((res) => res.text())
-      .then((value) => setFileData(value));
-    console.log(fileData);
-  }, [fileData]);
-
-  const sequence = generateSequence();
+  const [sequence, setSequence] = useState<number[]>(generateSequence());
 
   const handleWriteSequence = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value) setWritableSequence(+e.target.value);
+    setWritableSequence(+e.target.value);
+  };
+
+  const downloadSequenceFromFile = () => {
+    fetch("input.txt")
+      .then((res) => res.text())
+      .then((value) => setSequence(convertSequenceToArray(value)));
   };
 
   const value: Context = {
     sequence: writableSequence ? generateSequence(writableSequence) : sequence,
     sequenceChange: handleWriteSequence,
+    downloadSequenceFromFile,
   };
 
   return (
