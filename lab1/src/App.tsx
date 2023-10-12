@@ -12,7 +12,7 @@ function App() {
 
   const { sequenceChange, downloadSequenceFromFile } = useContext(MainContextValues);
 
-  const items1 = ["frequensy", "sequence", "extra"].map((key) => ({
+  const items1 = ["frequensy", "sequence", "extra", "rsa", "cubic", "additive"].map((key) => ({
     key,
     label: `${key}`,
   }));
